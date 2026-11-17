@@ -10,8 +10,8 @@
 
 ---
 > 📚 Document Navigation:<br>
-> [Home (Hub)](https://github.com/zqhkd/flight-control-toolbox) | [中文](./README.md)<br>
-> **This toolbox:** [中文](./README.md) | [English](./README_EN.md)<br>
+> [Home (Hub)](https://github.com/zqhkd/flight-control-toolbox) | [English](https://github.com/zqhkd/flight-control-toolbox/blob/main/README_EN.md)<br>
+> **This toolbox:** [Chinese](./README.md) | [English](./README_EN.md)<br>
 > **Related toolbox:** [ASEToolBox — real-time simulation](https://github.com/zqhkd/ASEToolBox) | [English](https://github.com/zqhkd/ASEToolBox/blob/main/README_EN.md)
 
 ---
