@@ -1,0 +1,36 @@
+%% File	   : initTakeOffAPI.tlc
+%% Abstract:
+%%		Target file for the C-Mex S-function crcengstat.c
+%% Author  : ZQingHua @2019/02/18
+
+%implements "initTakeOffAPI" "C"
+
+%% Function: BlockTypeSetup ===========================================
+%%
+%function BlockTypeSetup(block, system) void
+	%<LibAddToCommonIncludes("AFCBasicAPI.h")>
+%endfunction %% BlockTypeSetup
+
+%% Function: BlockInstanceSetup ===========================================
+%%
+%function BlockInstanceSetup(block, system) void
+
+%endfunction %% BlockInstanceSetup
+
+%% Function: Start ====================================================
+%%
+%function Start(block, system) Output
+    %% %assign t_initF = SFcnParamSettings.r_initF
+    %% %<t_initF>();
+%endfunction %% Start
+
+%% Function: Outputs ===================================================
+%%
+%function Outputs(block, system) Output
+    %assign t_exeF = SFcnParamSettings.r_exeF
+
+    %assign u_val1 = LibBlockInputSignal(0, "", "", 0)
+    %assign u_val2 = LibBlockInputSignal(1, "", "", 0)
+
+    %<t_exeF>(%<u_val1>,%<u_val2>);
+%endfunction %% Outputs

@@ -1,0 +1,160 @@
+{
+    "version": "1.0",
+    "entries": [
+        {
+            "type": "Action",
+            "id": "newPopUpAction",
+            "text": "New",
+            "icon": "new"
+        },
+        {
+            "type": "Action",
+            "id": "exportPopUpAction",
+            "text": "Export model to..."
+        },
+        {
+            "type": "Action",
+            "id": "buildKeilPrjAction",
+            "text": "BuildToHex",
+            "description": "Only build target system's Keil-C Project",
+            "icon": "buildKeilPrjIcon",
+            "command": "menuBuildKeilPrj",
+            "commandType": "Script"
+        },
+        {
+            "type": "Icon",
+            "id": "buildKeilPrjIcon",
+            "icon16": "CCompiler_16.png",
+            "icon24": "CCompiler_24.png"
+        },
+        {
+            "type": "Action",
+            "id": "downLoadHexAction",
+            "text": "HexToBoard",
+            "description": "Only Down Curren Project's Hex to Target",
+            "icon": "autoDownPrjHexIcon",
+            "command": "menuDownPrjHex",
+            "commandType": "Script"
+        },
+        {
+            "type": "Icon",
+            "id": "autoDownPrjHexIcon",
+            "icon16": "download_16.png",
+            "icon24": "download_24.png"
+        },
+        {
+            "type": "Action",
+            "id": "autoBuildDeployAction",
+            "text": "AutoDeploy",
+            "description": "build And Deploy To Target",
+            "icon": "autoBuildDeployIcon",
+            "command": "menuBuildDeploy",
+            "commandType": "Script"
+        },
+        {
+            "type": "Icon",
+            "id": "autoBuildDeployIcon",
+            "icon16": "buildAndDeploy_16.png",
+            "icon24": "buildAndDeploy_24.png"
+        },
+        {
+            "type": "Action",
+            "id": "cioDeployAction",
+            "text": "CIODeploy",
+            "description": "Auto Deploy & Run Simulation by CIO",
+            "icon": "cioDeployIcon",
+            "command": "menuCioDeploy",
+            "commandType": "Script"
+        },
+        {
+            "type": "Icon",
+            "id": "cioDeployIcon",
+            "icon16": "cioDeploy_16.png",
+            "icon24": "cioDeploy_24.png"
+        },
+        {
+            "type": "Action",
+            "id": "cioSimAction",
+            "text": "CIO Sim",
+            "description": "Only Simulation by Connected IO if CIODeploy",
+            "icon": "cioSimIcon",
+            "command": "menuCioSim",
+            "commandType": "Script"
+        },
+        {
+            "type": "Icon",
+            "id": "cioSimIcon",
+            "icon16": "cioSim_16.png",
+            "icon24": "cioSim_24.png"
+        },
+        {
+            "type": "Action",
+            "id": "comSettingAction",
+            "text": "COM Setting",
+            "description": "Setting Com Port No and BaudRate",
+            "icon": "comSettingIcon",
+            "command": "menuComSetting",
+            "commandType": "Script"
+        },
+        {
+            "type": "Icon",
+            "id": "comSettingIcon",
+            "icon16": "comSetting_16.png",
+            "icon24": "comSetting_24.png"
+        },
+        {
+            "type": "Action",
+            "id": "stopCIOAction",
+            "text": "Stop CIO",
+            "description": "Stop CIO Operation",
+            "icon": "comSettingIcon",
+            "command": "menuStopCIO",
+            "commandType": "Script"
+        },
+        {
+            "type": "Action",
+            "id": "uavSetupAction",
+            "text": "UAV Setup",
+            "description": "Configure for UAV",
+            "icon": "uavSetupIcon",
+            "command": "menuUavSetup",
+            "commandType": "Script"
+        },
+        {
+            "type": "Icon",
+            "id": "uavSetupIcon",
+            "icon16": "uavSetup_16.png",
+            "icon24": "uavSetup_24.png"
+        },
+        {
+            "type": "Action",
+            "id": "dtComXMLPathAction",
+            "text": "dtComXMLPath",
+            "description": "Set DTCom XML file path",
+            "icon": "xmlPathIcon",
+            "command": "menuXmlPath",
+            "commandType": "Script"
+        },
+        {
+            "type": "Icon",
+            "id": "xmlPathIcon",
+            "icon16": "xmlPath_16.png",
+            "icon24": "xmlPath_24.png"
+        },
+        {
+            "type": "Action",
+            "id": "regenDtComXMLAction",
+            "text": "regenDtComXML",
+            "description": "Regenerate DtCom XML file",
+            "icon": "regenXMLIcon",
+            "command": "regenXMLSetup",
+            "commandType": "Script"
+        },
+        {
+            "type": "Icon",
+            "id": "regenXMLIcon",
+            "icon16": "regenXML_16.png",
+            "icon24": "regenXML_24.png"
+        }
+    ]
+}

@@ -1,0 +1,39 @@
+%% File	   : getRCCmdAPI.tlc
+%% Abstract:
+%%		Target file for the C-Mex S-function crcengstat.c
+%% Author  : ZQingHua @2019/02/18
+
+%implements "getRCCmdAPI" "C"
+
+%% Function: BlockTypeSetup ===========================================
+%%
+%function BlockTypeSetup(block, system) void
+	%<LibAddToCommonIncludes("some_work.h")>
+%endfunction %% BlockTypeSetup
+
+%% Function: BlockInstanceSetup ===========================================
+%%
+%function BlockInstanceSetup(block, system) void
+
+%endfunction %% BlockInstanceSetup
+
+%% Function: Start ====================================================
+%%
+%function Start(block, system) Output
+
+%endfunction %% Start
+
+%% Function: Outputs ===================================================
+%%
+%function Outputs(block, system) Output
+    %assign t_exeF = SFcnParamSettings.r_exeF
+
+    %assign y1 = LibBlockOutputSignalAddr(0, "", "", 0)
+    %assign y2 = LibBlockOutputSignalAddr(1, "", "", 0)
+    %assign y3 = LibBlockOutputSignalAddr(2, "", "", 0)
+    %assign y4 = LibBlockOutputSignalAddr(3, "", "", 0)
+    %assign y5 = LibBlockOutputSignalAddr(4, "", "", 0)
+
+    %<t_exeF>(%<y1>,%<y2>,%<y3>,%<y4>,%<y5>);
+    
+%endfunction %% Outputs

@@ -1,0 +1,41 @@
+%% File	   : readSBusCmdAPI.tlc
+%% Abstract:
+%%		Target file for the C-Mex S-function crcengstat.c
+%% Author  : ZQingHua @2019/02/18
+
+%implements "readSBusCmdAPI" "C"
+
+%% Function: BlockTypeSetup ===========================================
+%%
+%function BlockTypeSetup(block, system) void
+	%<LibAddToCommonIncludes("AFCAPI.h")>
+
+    %% t_initF放在此处表示在初始化文件中只出现一次
+    %% %assign t_initF = SFcnParamSettings.r_initF
+    %% %openfile buf
+    %% %<t_initF>();
+    %% %closefile buf
+    %% %<LibMdlStartCustomCode(buf,"execution")>
+%endfunction %% BlockTypeSetup
+
+%% Function: BlockInstanceSetup ===========================================
+%%
+%function BlockInstanceSetup(block, system) void
+%endfunction %% BlockInstanceSetup
+
+%% Function: Start ====================================================
+%%
+%function Start(block, system) Output
+    %assign t_initF = SFcnParamSettings.r_initF
+    %assign t_sbusChanel = SFcnParamSettings.r_sbusChanel
+    %<t_initF>(%<t_sbusChanel>);    %% 
+%endfunction %% Start
+
+%% Function: Outputs ===================================================
+%%
+%function Outputs(block, system) Output
+    %assign t_exeF = SFcnParamSettings.r_exeF
+    %assign t_sbusChanel = SFcnParamSettings.r_sbusChanel
+    %assign y = LibBlockOutputSignal(0, "", "", 0)
+    %<y> = %<t_exeF>(%<t_sbusChanel>);
+%endfunction %% Outputs

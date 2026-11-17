@@ -1,0 +1,140 @@
+%% SYSTLC: Embedded Coder TMF: ert_default_tmf MAKE: make_rtw \
+%%    EXTMODE: ext_comm
+%%
+%% 
+%% 
+%%
+%% Copyright 2019-2029 The ACG Co. @Author: ZengQingHua
+%% Abstract: AFCHawk-5 Flight Controller real-time system target file.
+%%
+%selectfile NULL_FILE
+
+%assign CodeFormat = "Embedded-C"
+
+%assign TargetType = "RT"
+%assign Language   = "C"
+%assign PreCodeGenExecCompliant = 1
+
+%if !EXISTS(AutoBuildProcedure)
+  %if EXISTS(GenerateSampleERTMain)
+    %assign AutoBuildProcedure = !GenerateSampleERTMain
+  %else
+    %% This is for the targets that use ert.tlc and are required to work
+    %% without Embedded Coder. This is to enable auto build procedure since
+    %% the GenerateSampleERTMain is always set to true for these targets.
+    %assign AutoBuildProcedure = TLC_TRUE
+  %endif
+%endif
+
+%% The model_SetEventsForThisBaseRate function is not required for the
+%% VxWorks environment, i.e., when using an operating system.
+%assign SuppressSetEventsForThisBaseRateFcn = (TargetOS == "VxWorksExample") 
+%if !EXISTS(InlineSetEventsForThisBaseRateFcn)
+  %assign InlineSetEventsForThisBaseRateFcn  = TLC_TRUE
+%endif
+%if !EXISTS(SuppressMultiTaskScheduler)
+  %assign SuppressMultiTaskScheduler = TLC_TRUE
+%endif
+
+%assign TargetRegistMutexOp   = 1 
+%assign TargetRegistSynchroOp = 1
+
+%include "codegenentry.tlc"
+
+/%
+  BEGIN_RTW_OPTIONS
+
+  oIdx = 1;
+
+  rtwoptions(oIdx).prompt         = 'AFC-5 Option';
+  rtwoptions(oIdx).type           = 'Category';
+  rtwoptions(oIdx).enable         = 'on';  
+  rtwoptions(oIdx).default        = 3;          % number of items under this category
+                                      % excluding this one.
+  rtwoptions(oIdx).popupstrings  = '';
+  rtwoptions(oIdx).tlcvariable   = '';
+  rtwoptions(oIdx).tooltip       = '';
+  rtwoptions(oIdx).callback      = '';
+  rtwoptions(oIdx).makevariable  = '';
+
+  oIdx = oIdx + 1;
+
+  rtwoptions(oIdx).prompt         = 'COM port';
+  rtwoptions(oIdx).type           = 'Edit';
+  rtwoptions(oIdx).default        = '2';
+  rtwoptions(oIdx).tlcvariable    = 't_comPort';
+  rtwoptions(oIdx).makevariable   = '';
+  rtwoptions(oIdx).callback       = '';
+  rtwoptions(oIdx).tooltip        = sprintf(['Set the COM port number for Connected IO mode.']);
+
+  oIdx = oIdx + 1;
+
+  rtwoptions(oIdx).prompt         = 'COM Baud Rate';
+  rtwoptions(oIdx).type           = 'Edit';
+  rtwoptions(oIdx).default        = '460800';
+  rtwoptions(oIdx).tlcvariable    = 't_comBaud';
+  rtwoptions(oIdx).makevariable   = '';
+  rtwoptions(oIdx).callback       = '';
+  rtwoptions(oIdx).tooltip        = sprintf(['Set the COM port Baud Rate for Connected IO mode.']);
+
+  %% oIdx = oIdx + 1;
+  %% 
+  %% rtwoptions(oIdx).prompt         = 'Product ID';
+  %% rtwoptions(oIdx).type           = 'Edit';
+  %% rtwoptions(oIdx).default        = '1';
+  %% rtwoptions(oIdx).tlcvariable    = 't_productId';
+  %% rtwoptions(oIdx).makevariable   = '';
+  %% rtwoptions(oIdx).callback       = '';
+  %% rtwoptions(oIdx).tooltip        = sprintf(['Set the current Product ID number.']);
+  %% 
+  %% oIdx = oIdx + 1;
+  %% 
+  %% rtwoptions(oIdx).prompt         = 'User Code';
+  %% rtwoptions(oIdx).type           = 'Edit';
+  %% rtwoptions(oIdx).default        = '11120';
+  %% rtwoptions(oIdx).tlcvariable    = 't_userCode';
+  %% rtwoptions(oIdx).makevariable   = '';
+  %% rtwoptions(oIdx).callback       = '';
+  %% rtwoptions(oIdx).tooltip        = sprintf(['Set User Authorization Code(0--65535).']);
+  %% 
+  %% oIdx = oIdx + 1;
+  %% 
+  %% rtwoptions(oIdx).prompt         = 'Product Key';
+  %% rtwoptions(oIdx).type           = 'Edit';
+  %% rtwoptions(oIdx).default        = '45638';
+  %% rtwoptions(oIdx).tlcvariable    = 't_productKey';
+  %% rtwoptions(oIdx).makevariable   = '';
+  %% rtwoptions(oIdx).callback       = '';
+  %% rtwoptions(oIdx).tooltip        = sprintf(['Set Product Key(0--65535).']);
+
+  oIdx = oIdx + 1;
+
+  rtwoptions(oIdx).prompt         = 'Build C Project to Hex File';
+  rtwoptions(oIdx).type           = 'Checkbox';
+  rtwoptions(oIdx).default        = 'off';
+  rtwoptions(oIdx).tlcvariable    = 't_BuildCPrj2Hex';
+  rtwoptions(oIdx).makevariable   = '';
+  rtwoptions(oIdx).callback       = '';
+  rtwoptions(oIdx).tooltip        = sprintf(['Whether to generate C project object files, default does not generate']);
+
+  oIdx = oIdx + 1;
+
+  rtwoptions(oIdx).prompt         = 'Auto Download to Target Board';
+  rtwoptions(oIdx).type           = 'Checkbox';
+  rtwoptions(oIdx).default        = 'off';
+  rtwoptions(oIdx).tlcvariable    = 't_DownLoad2Target';
+  rtwoptions(oIdx).makevariable   = '';
+  rtwoptions(oIdx).callback       = '';
+  rtwoptions(oIdx).tooltip = sprintf('Whether the Hex file is automatically downloaded after the generation is completed, the default is not downloaded');  
+
+  %----------------------------------------%
+  % Configure code generation settings %
+  %----------------------------------------%
+  
+  rtwgensettings.BuildDirSuffix = '_ert_rtw';
+  rtwgensettings.Version        = '1';
+  rtwgensettings.DerivedFrom    = 'ert.tlc';
+  rtwgensettings.SelectCallback = 'AFCHawk_callback_handler(hDlg, hSrc)';
+
+  END_RTW_OPTIONS 
+ %/

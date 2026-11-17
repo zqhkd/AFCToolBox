@@ -1,0 +1,71 @@
+%% File	   : DtOutDevParm.tlc
+%% Abstract:
+%%		Target file for the C-Mex S-function crcengstat.c
+%% Author  : ZQingHua @2019/02/18
+
+%implements "DtOutDevParm" "C"
+
+%% Function: BlockTypeSetup ===========================================
+%%
+%function BlockTypeSetup(block, system) void
+	%<LibAddToCommonIncludes("AFCDtCom.h")>
+    %% %openfile buff
+    %% #define __DtComOutValid__
+    %% %closefile buff
+   %% %<LibCacheDefine(buff)>
+   %% %openfile buff
+   %% void ModelVar2DtCom(void);
+   %% %closefile buff
+   %% %<LibCacheFunctionPrototype(buff)>
+   
+%endfunction %% BlockTypeSetup
+
+%% Function: BlockInstanceSetup ===========================================
+%%
+%function BlockInstanceSetup(block, system) void
+
+%endfunction %% BlockInstanceSetup
+
+%% Function: Start ====================================================
+%%
+%function Start(block, system) Output
+    %assign t_initF = SFcnParamSettings.r_initF
+%%    %assign t_dim = SFcnParamSettings.r_dim
+%%    %assign t_frameType = SFcnParamSettings.r_frameType
+    %assign t_bICM42688 = SFcnParamSettings.r_bICM42688
+    %assign t_bICM20602 = SFcnParamSettings.r_bICM20602
+    %assign t_bDPSIST = SFcnParamSettings.r_bDPSIST
+    %assign t_bGPS = SFcnParamSettings.r_bGPS
+    %assign t_bRemoter = SFcnParamSettings.r_bRemoter
+    
+%%    %<t_initF>(%<t_dim>,%<t_frameType>,%<t_bICM42688>,%<t_bICM20602>,%<t_bDPSIST>,%<t_bGPS>,%<t_bRemoter>);
+    %<t_initF>(%<t_bICM42688>,%<t_bICM20602>,%<t_bDPSIST>,%<t_bGPS>,%<t_bRemoter>);
+    
+%endfunction %% Start
+
+%% Function: Outputs ===================================================
+%%
+%function Outputs(block, system) Output
+    %assign t_exeF = SFcnParamSettings.r_exeF
+%%    %assign t_frameType = SFcnParamSettings.r_frameType
+
+    %% ?RollThreshold??????50,??????????????????50????for???????for?????????,?????
+    %openfile drvFunc
+        void DtCom2CtrlParam(void){
+        %assign rollVars = ["U"]
+    %% 第一个端口为采集时刻点
+        %assign y = LibBlockOutputSignal(0, "","", 0)
+        %<y> = %<t_exeF>(0x9a,0);
+%% 将RollThreshold值强行设置为50，表示只有当信号或参数的维数等于或大于50时才生成for循环。由于生成for循环的这段代码有错，故做此处理
+        %roll sigIdx = RollRegions,lcv = 50,block,"Roller",rollVars
+            %assign y = LibBlockOutputSignal(1, "",lcv, sigIdx)
+            %assign dataSigIdx = sigIdx + 1
+            %<y> = %<t_exeF>(0x9a,%<dataSigIdx>);
+        %endroll
+        }
+    %closefile drvFunc
+    %assign cFile = LibGetModelDotCFile()
+    %<LibSetSourceFileSection(cFile,"Functions",drvFunc)>
+    %%DtCom2CtrlParam();
+    DtOutDevParmFun();
+%endfunction %% Outputs

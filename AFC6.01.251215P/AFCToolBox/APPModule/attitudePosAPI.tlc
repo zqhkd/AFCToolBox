@@ -1,0 +1,44 @@
+%% File	   : attitudePosAPI.tlc
+%% Abstract:
+%%		Target file for the C-Mex S-function crcengstat.c
+%% Author  : ZQingHua @2019/02/18
+
+%implements "attitudePosAPI" "C"
+
+%% Function: BlockTypeSetup ===========================================
+%%
+%function BlockTypeSetup(block, system) void
+	%<LibAddToCommonIncludes("AFCBasicAPI.h")>
+%endfunction %% BlockTypeSetup
+
+%% Function: BlockInstanceSetup ===========================================
+%%
+%function BlockInstanceSetup(block, system) void
+
+%endfunction %% BlockInstanceSetup
+
+%% Function: Start ====================================================
+%%
+%function Start(block, system) Output
+    %assign t_initF = SFcnParamSettings.r_initF
+    %<t_initF>();
+%endfunction %% Start
+
+%% Function: Outputs ===================================================
+%%
+%function Outputs(block, system) Output
+    %assign t_exeF = SFcnParamSettings.r_exeF
+
+    %assign u_val1 = LibBlockInputSignal(0, "", "", 0)
+    %assign u_val2 = LibBlockInputSignal(1, "", "", 0)
+    %assign u_val3 = LibBlockInputSignal(2, "", "", 0)
+    %assign u_val4 = LibBlockInputSignalAddr(3, "", "", 0)
+    %assign u_val5 = LibBlockInputSignal(4, "", "", 0)
+    %assign u_val6 = LibBlockInputSignalAddr(5, "", "", 0)
+
+    %assign y1 = LibBlockOutputSignalAddr(0, "", "", 0)
+    %assign y2 = LibBlockOutputSignalAddr(1, "", "", 0)
+
+    %<t_exeF>(%<u_val1>,%<u_val2>,%<u_val3>,%<u_val4>,%<u_val5>,%<u_val6>,%<y1>,%<y2>);
+
+%endfunction %% Outputs

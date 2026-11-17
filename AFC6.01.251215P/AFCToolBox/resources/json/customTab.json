@@ -1,0 +1,175 @@
+{
+    "version": "1.0",
+    "entries": [
+        {
+            "type": "Tab",
+            "id": "afcToolBoxTab",
+            "title": "AFC",
+            "children": [
+                {
+                    "type": "Section",
+                    "title": "File",
+                    "children": [
+                        {
+                            "type": "Column",
+                            "children": [
+                                {
+                                    "type": "DropDownButton",
+                                    "action": "newPopUpAction",
+                                    "popupName": "newPopUpList"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "Column",
+                            "children": [
+                                {
+                                    "type": "PushButton",
+                                    "action": "openModelAction"
+                                },
+                                {
+                                    "type": "SplitButton",
+                                    "action": "saveModelAction",
+                                    "popupName": "savePopUpList"
+                                },
+                                {
+                                    "type": "EmptyControl"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "Section",
+                    "title": "Modeling",
+                    "children": [
+                        {
+                            "type": "Column",
+                            "children": [
+                                {
+                                    "type": "PushButton",
+                                    "action": "showLibraryBrowserAction"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "Column",
+                            "children": [
+                                {
+                                    "type": "PushButton",
+                                    "action": "openModelAdvisorAction"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "Column",
+                            "children": [
+                                {
+                                    "type": "PushButton",
+                                    "action": "openModelConfigParamAction"
+                                },
+                                {
+                                    "type": "PushButton",
+                                    "action": "updateDiagramAction"
+                                },
+                                {
+                                    "type": "PushButton",
+                                    "action": "findInModelAction"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "Section",
+                    "title": "Build & Deploy",
+                    "children": [
+                        {
+                            "type": "Column",
+                            "children": [
+                                {
+                                    "type": "PushButton",
+                                    "action": "autoBuildDeployAction"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "Column",
+                            "children": [
+                                {
+                                    "type": "PushButton",
+                                    "action": "buildKeilPrjAction"
+                                },
+                                {
+                                    "type": "PushButton",
+                                    "action": "downLoadHexAction"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "Section",
+                    "title": "ConnectedIO",
+                    "children": [
+                        {
+                            "type": "Column",
+                            "children": [
+                                {
+                                    "type": "PushButton",
+                                    "action": "cioDeployAction"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "Column",
+                            "children": [
+                                {
+                                    "type": "PushButton",
+                                    "action": "cioSimAction"
+                                },
+                                {
+                                    "type": "PushButton",
+                                    "action": "comSettingAction"
+                                },
+                                {
+                                    "type": "PushButton",
+                                    "action": "stopCIOAction"
+                                }
+
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "Section",
+                    "title": "AFC5Setup",
+                    "children": [
+                        {
+                            "type": "Column",
+                            "children": [
+                                {
+                                    "type": "PushButton",
+                                    "action": "uavSetupAction"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "Column",
+                            "children": [
+                                {
+                                    "type": "PushButton",
+                                    "action": "dtComXMLPathAction"
+                                },
+                                {
+                                    "type": "PushButton",
+                                    "action": "regenDtComXMLAction"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

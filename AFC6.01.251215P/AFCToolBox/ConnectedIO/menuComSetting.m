@@ -1,0 +1,3 @@
+function menuComSetting
+    comSettingGUI;
+end

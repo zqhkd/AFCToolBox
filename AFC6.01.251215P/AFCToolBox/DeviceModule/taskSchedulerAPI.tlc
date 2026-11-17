@@ -1,0 +1,84 @@
+%implements taskSchedulerAPI "C"
+
+%% Function: blockTypeSetup ==========================================================
+%%
+%% Purpose:
+%%      Add some macro defines .
+%%
+%function BlockTypeSetup(block, system) void
+	%<LibAddToCommonIncludes("AFCAPI.h")>
+%endfunction
+
+%% Function: Start ==========================================================
+%%
+%% Purpose:
+%%   
+%%     these code will appear at model.c initialization function
+%%
+%function Start(block, system) Output
+    %assign t_initF = SFcnParamSettings.r_initF
+    /* If need user can add custom initialize code here */
+    %assign t_T01P = SFcnParamSettings.r_T01P
+    %assign t_T02P = SFcnParamSettings.r_T02P
+    %assign t_T03P = SFcnParamSettings.r_T03P
+    %<t_initF>(%<t_T01P>,%<t_T02P>,%<t_T03P>);
+%endfunction
+
+%% Function: Outputs ==========================================================
+%%
+%% Purpose:
+%%   
+%%     these code will appear at model.c step function
+%%
+%function Outputs(block, system) Output
+    /* put your code on there */
+  %% Call the downstream function call subsystem
+  %assign callIdx = 0   
+  %openfile tmpBuf
+     %<LibBlockExecuteFcnCall(block, callIdx)>\
+  %closefile tmpBuf
+  %if WHITE_SPACE(tmpBuf)
+        %assign tmpBuf = "/*  Nothing is generated.  */"
+  %endif
+  %openfile tmpTask
+      void Task01Isr(void){
+          %<tmpBuf>\
+      }
+  %closefile tmpTask
+  %assign cFile = LibGetModelDotCFile()
+  %<LibSetSourceFileSection(cFile, "Functions", tmpTask)>\
+
+  %% 第2个端口调用
+  %assign callIdx = 1   
+  %openfile tmpBuf
+     %<LibBlockExecuteFcnCall(block, callIdx)>\
+  %closefile tmpBuf
+  %if WHITE_SPACE(tmpBuf)
+        %assign tmpBuf = "/*  Nothing is generated.  */"
+  %endif
+  %openfile tmpTask
+      void Task02Isr(void){
+          %<tmpBuf>\
+      }
+  %closefile tmpTask
+  %assign cFile = LibGetModelDotCFile()
+  %<LibSetSourceFileSection(cFile, "Functions", tmpTask)>\
+
+  %% 第3个端口调用
+  %assign callIdx = 2   
+  %openfile tmpBuf
+     %<LibBlockExecuteFcnCall(block, callIdx)>\
+  %closefile tmpBuf
+  %if WHITE_SPACE(tmpBuf)
+        %assign tmpBuf = "/*  Nothing is generated.  */"
+  %endif
+  %openfile tmpTask
+      void Task03Isr(void){
+          %<tmpBuf>\
+      }
+  %closefile tmpTask
+  %assign cFile = LibGetModelDotCFile()
+  %<LibSetSourceFileSection(cFile, "Functions", tmpTask)>\
+
+%endfunction
+

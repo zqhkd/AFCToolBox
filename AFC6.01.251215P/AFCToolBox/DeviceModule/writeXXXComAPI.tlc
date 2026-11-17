@@ -1,0 +1,63 @@
+%% File	   : writeXXXComAPI.tlc
+%% Abstract:
+%%		Target file for the C-Mex S-function crcengstat.c
+%% Author  : ZQingHua @2019/02/18
+
+%implements "writeXXXComAPI" "C"
+
+%% Function: BlockTypeSetup ===========================================
+%%
+%function BlockTypeSetup(block, system) void
+	%<LibAddToCommonIncludes("AFCXXXCom.h")>
+    %% %openfile buff
+    %% #define __DtComOutValid__
+    %% %closefile buff
+   %% %<LibCacheDefine(buff)>
+   %% %openfile buff
+   %% void ModelVar2DtCom(void);
+   %% %closefile buff
+   %% %<LibCacheFunctionPrototype(buff)>
+   
+%endfunction %% BlockTypeSetup
+
+%% Function: BlockInstanceSetup ===========================================
+%%
+%function BlockInstanceSetup(block, system) void
+
+%endfunction %% BlockInstanceSetup
+
+%% Function: Start ====================================================
+%%
+%function Start(block, system) Output
+    %assign t_idxComPort = SFcnParamSettings.r_idxComPort
+    %assign t_baudRate = SFcnParamSettings.r_baudRate
+    initXComOut(%<t_idxComPort>,%<t_baudRate>);
+%endfunction %% Start
+
+%% Function: Outputs ===================================================
+%%
+%function Outputs(block, system) Output
+    %assign t_idxComPort = SFcnParamSettings.r_idxComPort
+    %assign t_outFreq = SFcnParamSettings.r_outFreq
+    %assign t_dim = SFcnParamSettings.r_dim
+    %assign rollVars = ["U"]
+%% 将RollThreshold值强行设置为50，表示只有当信号或参数的维数等于或大于50时才生成for循环。由于生成for循环的这段代码有错，故做此处理
+    %openfile drvFunc
+        void ModelVar2ComIdx%<t_idxComPort>(void){
+            static uint8_t iOutNo = 1;
+            if(iOutNo == %<t_outFreq>){
+        %roll sigIdx = RollRegions,lcv = 5,block,"Roller",rollVars
+            %assign u_val = LibBlockInputSignal(0, "", lcv, sigIdx)
+            writeXCom(%<t_idxComPort>,%<t_dim>,%<u_val>);
+        %endroll
+            iOutNo = 0;
+         }
+        iOutNo++;
+      }
+    %closefile drvFunc
+    %assign cFile = LibGetModelDotCFile()
+    %<LibSetSourceFileSection(cFile,"Functions",drvFunc)>
+
+    ModelVar2ComIdx%<t_idxComPort>();
+%endfunction %% Outputs
+    

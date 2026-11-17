@@ -1,0 +1,40 @@
+%% File	   : ICM20602API.tlc
+%% Abstract:
+%%		Target file for the C-Mex S-function crcengstat.c
+%% Author  : ZQingHua @2019/02/18
+
+%implements "ICM20602API" "C"
+
+%% Function: BlockTypeSetup ===========================================
+%%
+%function BlockTypeSetup(block, system) void
+	%<LibAddToCommonIncludes("AFCAPI.h")>
+%endfunction %% BlockTypeSetup
+
+%% Function: BlockInstanceSetup ===========================================
+%%
+%function BlockInstanceSetup(block, system) void
+
+%endfunction %% BlockInstanceSetup
+
+%% Function: Start ====================================================
+%%
+%function Start(block, system) Output
+    %assign t_initF = SFcnParamSettings.r_initF
+    %assign t_id0 = SFcnParamSettings.r_id0
+    %assign t_id1 = SFcnParamSettings.r_id1
+    %assign t_smplrtDiv = SFcnParamSettings.r_smplrtDiv
+%%    %<t_initF>(%<t_id0>,%<t_id1>,%<t_smplrtDiv>);
+    %<t_initF>();
+    HAL_Delay(10);
+%endfunction %% Start
+
+%% Function: Outputs ===================================================
+%%
+%function Outputs(block, system) Output
+    %assign t_pv = SFcnParamSettings.r_pv
+    %foreach sigIdx = 8
+    %assign y = LibBlockOutputSignal(sigIdx, "", "", 0)
+    %<y> = %<t_pv>(%<sigIdx>);
+    %endforeach
+%endfunction %% Outputs

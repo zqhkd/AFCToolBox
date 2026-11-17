@@ -1,0 +1,36 @@
+%% File	   : TOF03API.tlc
+%% Abstract:
+%%		Target file for the C-Mex S-function crcengstat.c
+%% Author  : ZQingHua @2019/02/18
+
+%implements "TOF03API" "C"
+
+%% Function: BlockTypeSetup ===========================================
+%%
+%function BlockTypeSetup(block, system) void
+	%<LibAddToCommonIncludes("AFCTofCom.h")>
+%endfunction %% BlockTypeSetup
+
+%% Function: BlockInstanceSetup ===========================================
+%%
+%function BlockInstanceSetup(block, system) void
+
+%endfunction %% BlockInstanceSetup
+
+%% Function: Start ====================================================
+%%
+%function Start(block, system) Output
+    %assign t_initF = SFcnParamSettings.r_initF
+    %assign t_num = SFcnParamSettings.r_slideNum
+    %<t_initF>(%<t_num>);
+%endfunction %% Start
+
+%% Function: Outputs ===================================================
+%%
+%function Outputs(block, system) Output
+    %assign t_pv = SFcnParamSettings.r_pv
+    %foreach sigIdx = 3
+    %assign y = LibBlockOutputSignal(sigIdx, "", "", 0)
+    %<y> = %<t_pv>(%<sigIdx>);
+    %endforeach
+%endfunction %% Outputs

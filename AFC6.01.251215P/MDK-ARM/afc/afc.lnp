@@ -1,0 +1,23 @@
+--cpu Cortex-M7.fp.dp
+"afc\startup_stm32h743xx.o"
+"afc\soft_i2c.o"
+"afc\soft_spi.o"
+"afc\main.o"
+"afc\gpio.o"
+"afc\adc.o"
+"afc\dma.o"
+"afc\fdcan.o"
+"afc\i2c.o"
+"afc\spi.o"
+"afc\tim.o"
+"afc\usart.o"
+"afc\stm32h7xx_it.o"
+"afc\stm32h7xx_hal_msp.o"
+"afc\afctask.o"
+"..\AFCLIB\PegOsAPI.lib"
+"afc\afcbasicapi.o"
+"afc\simualgorithm.o"
+--library_type=microlib --nodebug --strict --scatter "afc\afc.sct"
+--summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list "afc.map" -o afc\afc.axf

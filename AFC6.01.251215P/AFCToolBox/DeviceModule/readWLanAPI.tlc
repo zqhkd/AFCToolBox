@@ -1,0 +1,60 @@
+%% File	   : readWLanAPI.tlc
+%% Abstract:
+%%		Target file for the C-Mex S-function crcengstat.c
+%%     AFC-3V1.05.211218: ????????????AFCPegDrv.h/.c??
+%% Author  : ZQingHua @2019/02/18
+
+%implements "readWLanAPI" "C"
+
+%% Function: BlockTypeSetup ===========================================
+%%
+%function BlockTypeSetup(block, system) void
+	%<LibAddToCommonIncludes("BSP5500.h")>
+%endfunction %% BlockTypeSetup
+
+%% Function: BlockInstanceSetup ===========================================
+%%
+%function BlockInstanceSetup(block, system) void
+%% %function BlockInstanceSetup(block, system) Output
+    %% %if !LibIsDefined("WLAN_INIT_GENERATED")
+    %%     %assign t_ipAddress = SFcnParamSettings.r_ipAddress
+    %%     %assign t_iPort = SFcnParamSettings.r_iPort
+    %%     initWLan(0, %<t_ipAddress>, %<t_iPort>);
+    %% %endif
+%endfunction %% BlockInstanceSetup
+
+%% Function: Start ====================================================
+%%
+%function Start(block, system) Output
+    %assign t_ipAddress = SFcnParamSettings.r_ipAddress
+    %assign t_localIpAddress = SFcnParamSettings.r_localIpAddress
+    %assign t_iPort = SFcnParamSettings.r_iPort
+    %assign t_varNum = SFcnParamSettings.r_varNum
+    initWLanIn(0, %<t_ipAddress>, %<t_localIpAddress>, %<t_iPort>,%<t_varNum>);
+%endfunction %% Start
+
+%% Function: Outputs ===================================================
+%%
+%function Outputs(block, system) Output
+    %assign t_idxWLan = 0
+    %assign rollVars = ["Y"]
+    
+    %% ?RollThreshold??????50,??????????????????50????for???????for?????????,?????
+    %openfile drvFunc
+        void WLan%<t_idxWLan>ToModelVar(void){
+        %assign t_varNum = SFcnParamSettings.r_varNum
+        %roll sigIdx = RollRegions,lcv = 5,block,"Roller",rollVars
+            %assign y = LibBlockOutputSignal(0, "",lcv, sigIdx)
+            %if t_varNum < 5
+                %<y> = readWLan(%<t_idxWLan>,%<sigIdx>);
+            %else
+                %<y> = readWLan(%<t_idxWLan>,%<lcv>);
+            %endif
+        %endroll
+        }
+    %closefile drvFunc
+    %assign cFile = LibGetModelDotCFile()
+    %<LibSetSourceFileSection(cFile,"Functions",drvFunc)>
+    
+    WLan%<t_idxWLan>ToModelVar();
+%endfunction %% Outputs

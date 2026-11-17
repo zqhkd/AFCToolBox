@@ -1,0 +1,39 @@
+%% File	   : attitudeRateAPI.tlc
+%% Abstract:
+%%		Target file for the C-Mex S-function crcengstat.c
+%% Author  : ZQingHua @2019/02/18
+
+%implements "attitudeRateAPI" "C"
+
+%% Function: BlockTypeSetup ===========================================
+%%
+%function BlockTypeSetup(block, system) void
+	%<LibAddToCommonIncludes("AFCBasicAPI.h")>
+%endfunction %% BlockTypeSetup
+
+%% Function: BlockInstanceSetup ===========================================
+%%
+%function BlockInstanceSetup(block, system) void
+
+%endfunction %% BlockInstanceSetup
+
+%% Function: Start ====================================================
+%%
+%function Start(block, system) Output
+    %assign t_initF = SFcnParamSettings.r_initF
+    %<t_initF>();
+%endfunction %% Start
+
+%% Function: Outputs ===================================================
+%%
+%function Outputs(block, system) Output
+    %assign t_exeF = SFcnParamSettings.r_exeF
+
+    %assign u_val1 = LibBlockInputSignal(0, "", "", 0)
+    %assign u_val2 = LibBlockInputSignalAddr(1, "", "", 0)    %% 如果是多维矢量，需要传输地址，否则只传输第一个变量即u_val2[0]
+    %assign u_val3 = LibBlockInputSignalAddr(2, "", "", 0)    %% 如果是多维矢量，需要传输地址，否则只传输第一个变量即u_val3[0]
+
+    %assign y1 = LibBlockOutputSignalAddr(0, "", "", 0)
+
+    %<t_exeF>(%<u_val1>,%<u_val2>,%<u_val3>,%<y1>);
+%endfunction %% Outputs

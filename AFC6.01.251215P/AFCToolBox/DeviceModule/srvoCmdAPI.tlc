@@ -1,0 +1,38 @@
+%% File	   : srvoCmdAPI.tlc
+%% Abstract:
+%%		Target file for the C-Mex S-function crcengstat.c
+%% Author  : ZQingHua @2019/02/18
+
+%implements "srvoCmdAPI" "C"
+
+%% Function: BlockTypeSetup ===========================================
+%% 
+%function BlockTypeSetup(block, system) void
+	%<LibAddToCommonIncludes("AFCAPI.h")>
+%endfunction %% BlockTypeSetup
+
+%% Function: BlockInstanceSetup ===========================================
+%% 
+%function BlockInstanceSetup(block, system) void
+%endfunction %% BlockInstanceSetup
+
+%% Function: Start ====================================================
+%%
+%function Start(block, system) Output
+    %assign t_initF = SFcnParamSettings.r_initF
+    %assign t_srvoChanel = SFcnParamSettings.r_srvoChanel
+    %assign t_minPW = SFcnParamSettings.r_minPW
+    %assign t_maxPW = SFcnParamSettings.r_maxPW
+    %<t_initF>(%<t_srvoChanel>,%<t_minPW>,%<t_maxPW>);
+%endfunction %% Start
+
+%% Function: Outputs ===================================================
+%%
+%function Outputs(block, system) Output
+    %assign t_exeF = SFcnParamSettings.r_exeF
+    %assign t_srvoChanel = SFcnParamSettings.r_srvoChanel
+    %foreach sigIdx = 1
+        %assign u_val = LibBlockInputSignal(sigIdx, "", "", 0)
+        %<t_exeF>(%<t_srvoChanel>,%<u_val>);
+     %endforeach
+%endfunction %% Outputs

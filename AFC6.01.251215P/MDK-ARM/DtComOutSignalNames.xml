@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<obj>
+   <Group>
+      <ID>TWLan/DTComOut</ID>
+      <FrameID>30</FrameID>
+      <SignalNumber>11</SignalNumber>
+      <SignalName>
+         <Name_1>u8a</Name_1>
+         <Name_2>u8b</Name_2>
+         <Name_3>i8a</Name_3>
+         <Name_4>i8b</Name_4>
+         <Name_5>i16a</Name_5>
+         <Name_6>i16b</Name_6>
+         <Name_7>i32a</Name_7>
+         <Name_8>i32b</Name_8>
+         <Name_9>u16</Name_9>
+         <Name_10>xu8c</Name_10>
+         <Name_11>xu8d</Name_11>
+      </SignalName>
+   </Group>
+</obj>
+<!--AFC5_DTComOut_SignalNames-->

@@ -1,0 +1,40 @@
+%% File	   : writeGpuComAPI.tlc
+%% Abstract:
+%%		Target file for the C-Mex S-function crcengstat.c
+%% Author  : ZQingHua @2019/02/18
+
+%implements "writeGpuComAPI" "C"
+
+%% Function: BlockTypeSetup ===========================================
+%%
+%function BlockTypeSetup(block, system) void
+	%<LibAddToCommonIncludes("AFCAPI.h")>
+%endfunction %% BlockTypeSetup
+
+%% Function: BlockInstanceSetup ===========================================
+%%
+%function BlockInstanceSetup(block, system) void
+
+%endfunction %% BlockInstanceSetup
+
+%% Function: Start ====================================================
+%%
+%function Start(block, system) Output
+    %assign t_initF = SFcnParamSettings.r_initF
+    %assign t_dim = SFcnParamSettings.r_dim
+    %assign t_frameType = SFcnParamSettings.r_frameType
+    %<t_initF>(%<t_dim>,%<t_frameType>);
+%endfunction %% Start
+
+%% Function: Outputs ===================================================
+%%
+%function Outputs(block, system) Output
+    %assign t_exeF = SFcnParamSettings.r_exeF
+    %assign rollVars = ["U"]
+%% 将RollThreshold值强行设置为50，表示只有当信号或参数的维数等于或大于50时才生成for循环。由于生成for循环的这段代码有错，故做此处理
+    %%roll sigIdx = RollRegions,lcv = RollThreshold,block,"Roller",rollVars
+    %roll sigIdx = RollRegions,lcv = 50,block,"Roller",rollVars
+        %assign u_val = LibBlockInputSignal(0, "", lcv, sigIdx)
+        %<t_exeF>(%<sigIdx>,%<u_val>);
+    %endroll
+%endfunction %% Outputs

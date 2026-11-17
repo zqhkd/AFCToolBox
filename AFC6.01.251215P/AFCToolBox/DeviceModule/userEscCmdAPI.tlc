@@ -1,0 +1,39 @@
+%% File	   : userEscCmdAPI.tlc
+%% Abstract:
+%%		Target file for the C-Mex S-function crcengstat.c
+%% Author  : ZQingHua @2019/02/18
+
+%implements "userEscCmdAPI" "C"
+
+%% Function: BlockTypeSetup ===========================================
+%% 
+%function BlockTypeSetup(block, system) void
+	%<LibAddToCommonIncludes("AFCAPI.h")>
+%endfunction %% BlockTypeSetup
+
+%% Function: BlockInstanceSetup ===========================================
+%% 
+%function BlockInstanceSetup(block, system) void
+%endfunction %% BlockInstanceSetup
+
+%% Function: Start ====================================================
+%%
+%function Start(block, system) Output
+    %assign t_initF = SFcnParamSettings.r_initF
+    %assign t_chanelNo = SFcnParamSettings.r_chanelNo
+    %assign t_minPW = SFcnParamSettings.r_minPW
+    %assign t_maxPW = SFcnParamSettings.r_maxPW
+    %assign t_userFreq = SFcnParamSettings.r_userFreq
+    %<t_initF>(%<t_userFreq>,%<t_chanelNo>,%<t_minPW>,%<t_maxPW>);     %% 第一个参数50表示低速电调频率。V5.05.241120更改为指定频率，以前0表示低速电调
+%endfunction %% Start
+
+%% Function: Outputs ===================================================
+%%
+%function Outputs(block, system) Output
+    %assign t_exeF = SFcnParamSettings.r_exeF
+    %assign t_chanelNo = SFcnParamSettings.r_chanelNo
+    %foreach sigIdx = 1
+        %assign u_val = LibBlockInputSignal(sigIdx, "", "", 0)
+        %<t_exeF>(%<t_chanelNo>,%<u_val>);
+     %endforeach
+%endfunction %% Outputs

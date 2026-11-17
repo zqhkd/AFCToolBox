@@ -1,0 +1,46 @@
+%% File	   : altitudeAPI.tlc
+%% Abstract:
+%%		Target file for the C-Mex S-function crcengstat.c
+%% Author  : ZQingHua @2019/02/18
+
+%implements "altitudeAPI" "C"
+
+%% Function: BlockTypeSetup ===========================================
+%%
+%function BlockTypeSetup(block, system) void
+	%<LibAddToCommonIncludes("AFCBasicAPI.h")>
+%endfunction %% BlockTypeSetup
+
+%% Function: BlockInstanceSetup ===========================================
+%%
+%function BlockInstanceSetup(block, system) void
+
+%endfunction %% BlockInstanceSetup
+
+%% Function: Start ====================================================
+%%
+%function Start(block, system) Output
+    %assign t_initF = SFcnParamSettings.r_initF
+    %% %assign t_id0 = SFcnParamSettings.r_id0
+    %%    %<t_initF>(%<t_id0>,%<t_id1>,%<t_smplrtDiv>);
+    %<t_initF>();
+%endfunction %% Start
+
+%% Function: Outputs ===================================================
+%%
+%function Outputs(block, system) Output
+    %assign t_exeF = SFcnParamSettings.r_exeF
+
+%% 将RollThreshold值强行设置为50，表示只有当信号或参数的维数等于或大于50时才生成for循环。由于生成for循环的这段代码有错，故做此处理
+    %assign u_val1 = LibBlockInputSignal(0, "", "", 0)
+    %assign u_val2 = LibBlockInputSignal(1, "", "", 0)
+    %assign u_val3 = LibBlockInputSignal(2, "", "", 0)
+    %assign u_val4 = LibBlockInputSignal(3, "", "", 0)
+    %assign u_val5 = LibBlockInputSignal(4, "", "", 0)
+
+    %assign y1 = LibBlockOutputSignal(0, "", "", 0)
+    %assign y2 = LibBlockOutputSignal(1, "", "", 0)
+    %assign y3 = LibBlockOutputSignal(2, "", "", 0)
+
+    %<t_exeF>(%<u_val1>,%<u_val2>,%<u_val3>,%<u_val4>,%<u_val5>,&%<y1>,&%<y2>,&%<y3>);   %% 输出变量强行加取地址符，否则用LibBlockOutputSignalAddr函数
+%endfunction %% Outputs

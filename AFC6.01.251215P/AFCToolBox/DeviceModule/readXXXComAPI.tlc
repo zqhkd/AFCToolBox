@@ -1,0 +1,54 @@
+%% File	   : readXXXComAPI.tlc
+%% Abstract:
+%%		Target file for the C-Mex S-function crcengstat.c
+%%     AFC-3V1.05.211218: ????????????AFCPegDrv.h/.c??
+%% Author  : ZQingHua @2019/02/18
+
+%implements "readXXXComAPI" "C"
+
+%% Function: BlockTypeSetup ===========================================
+%%
+%function BlockTypeSetup(block, system) void
+	%<LibAddToCommonIncludes("AFCXXXCom.h")>
+%endfunction %% BlockTypeSetup
+
+%% Function: BlockInstanceSetup ===========================================
+%%
+%function BlockInstanceSetup(block, system) void
+
+%endfunction %% BlockInstanceSetup
+
+%% Function: Start ====================================================
+%%
+%function Start(block, system) Output
+    %assign t_idxComPort = SFcnParamSettings.r_idxComPort
+    %assign t_baudRate = SFcnParamSettings.r_baudRate
+    %assign t_varNum = SFcnParamSettings.r_varNum
+    initXComIn(%<t_idxComPort>,%<t_baudRate>,%<t_varNum>);
+%endfunction %% Start
+
+%% Function: Outputs ===================================================
+%%
+%function Outputs(block, system) Output
+    %assign t_idxComPort = SFcnParamSettings.r_idxComPort
+    %assign rollVars = ["Y"]
+    
+    %% ?RollThreshold??????50,??????????????????50????for???????for?????????,?????
+    %openfile drvFunc
+        void ComIdx%<t_idxComPort>ToModelVar(void){
+        %assign t_varNum = SFcnParamSettings.r_varNum
+        %roll sigIdx = RollRegions,lcv = 5,block,"Roller",rollVars
+            %assign y = LibBlockOutputSignal(0, "",lcv, sigIdx)
+            %if t_varNum < 5
+                %<y> = readXCom(%<t_idxComPort>,%<sigIdx>);
+            %else
+                %<y> = readXCom(%<t_idxComPort>,%<lcv>);
+            %endif
+        %endroll
+        }
+    %closefile drvFunc
+    %assign cFile = LibGetModelDotCFile()
+    %<LibSetSourceFileSection(cFile,"Functions",drvFunc)>
+    
+    ComIdx%<t_idxComPort>ToModelVar();
+%endfunction %% Outputs

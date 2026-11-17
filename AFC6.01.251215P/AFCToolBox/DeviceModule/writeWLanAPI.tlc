@@ -1,0 +1,66 @@
+%% File	   : writeWLanAPI.tlc
+%% Abstract:
+%%		Target file for the C-Mex S-function crcengstat.c
+%% Author  : ZQingHua @2019/02/18
+
+%implements "writeWLanAPI" "C"
+
+%% Function: BlockTypeSetup ===========================================
+%%
+%function BlockTypeSetup(block, system) void
+	%<LibAddToCommonIncludes("BSP5500.h")>
+    %% %openfile buff
+    %% #define __DtComOutValid__
+    %% %closefile buff
+   %% %<LibCacheDefine(buff)>
+   %% %openfile buff
+   %% void ModelVar2DtCom(void);
+   %% %closefile buff
+   %% %<LibCacheFunctionPrototype(buff)>
+   
+%endfunction %% BlockTypeSetup
+
+%% Function: BlockInstanceSetup ===========================================
+%%
+%function BlockInstanceSetup(block, system) void
+    %% %if !LibIsDefined("WLAN_INIT_GENERATED")
+
+    %% %endif
+%endfunction %% BlockInstanceSetup
+
+%% Function: Start ====================================================
+%%
+%function Start(block, system) Output
+    %assign t_ipAddress = SFcnParamSettings.r_ipAddress
+    %assign t_localIpAddress = SFcnParamSettings.r_localIpAddress
+    %assign t_iPort = SFcnParamSettings.r_iPort
+    initWLanOut(0, %<t_ipAddress>, %<t_localIpAddress>, %<t_iPort>);
+%endfunction %% Start
+
+%% Function: Outputs ===================================================
+%%
+%function Outputs(block, system) Output
+    %assign t_idxWLan = 0
+    %assign t_outFreq = SFcnParamSettings.r_outFreq
+    %assign t_dim = SFcnParamSettings.r_dim
+    %assign rollVars = ["U"]
+%% 将RollThreshold值强行设置为50，表示只有当信号或参数的维数等于或大于50时才生成for循环。由于生成for循环的这段代码有错，故做此处理
+    %openfile drvFunc
+        void ModelVar2WLan%<t_idxWLan>(void){
+            static uint8_t iOutNo = 1;
+            if(iOutNo == %<t_outFreq>){
+        %roll sigIdx = RollRegions,lcv = 5,block,"Roller",rollVars
+            %assign u_val = LibBlockInputSignal(0, "", lcv, sigIdx)
+            writeWLan(%<t_idxWLan>,%<t_dim>,%<u_val>);
+        %endroll
+            iOutNo = 0;
+         }
+        iOutNo++;
+      }
+    %closefile drvFunc
+    %assign cFile = LibGetModelDotCFile()
+    %<LibSetSourceFileSection(cFile,"Functions",drvFunc)>
+
+    ModelVar2WLan%<t_idxWLan>();
+%endfunction %% Outputs
+    

@@ -1,0 +1,59 @@
+%% File	   : writeSimuComAPI.tlc
+%% Abstract:
+%%		Target file for the C-Mex S-function crcengstat.c
+%% Author  : ZQingHua @2019/02/18
+
+%implements "writeSimuComAPI" "C"
+
+%% Function: BlockTypeSetup ===========================================
+%%
+%function BlockTypeSetup(block, system) void
+	%<LibAddToCommonIncludes("SimMode.h")>
+	%<LibAddToCommonIncludes("AFCSimuCom.h")>
+%endfunction %% BlockTypeSetup
+
+%% Function: BlockInstanceSetup ===========================================
+%%
+%function BlockInstanceSetup(block, system) void
+
+%endfunction %% BlockInstanceSetup
+
+%% Function: Start ====================================================
+%%
+%function Start(block, system) Output
+    %assign t_initF = SFcnParamSettings.r_initF
+    %assign t_dim = SFcnParamSettings.r_dim
+    %assign t_frameType = SFcnParamSettings.r_frameType
+    %%assign t_outFreq = SFcnParamSettings.r_outFreq
+    #ifndef __CONNECTED_IO__
+        %<t_initF>(%<t_dim>,%<t_frameType>);
+    #endif
+%endfunction %% Start
+
+%% Function: Outputs ===================================================
+%%
+%function Outputs(block, system) Output
+    %assign t_exeF = SFcnParamSettings.r_exeF
+    %assign t_frameType = SFcnParamSettings.r_frameType
+    %assign t_outFreq = SFcnParamSettings.r_outFreq
+    %assign rollVars = ["U"]
+%% 将RollThreshold值强行设置为50，表示只有当信号或参数的维数等于或大于50时才生成for循环。由于生成for循环的这段代码有错，故做此处理
+    %openfile drvFunc
+        void ModelVar2SimuCom_%<t_frameType>(void){
+            static uint8_t iOutNo = 1;
+            if(iOutNo == %<t_outFreq>){
+        %roll sigIdx = RollRegions,lcv = 50,block,"Roller",rollVars
+            %assign u_val = LibBlockInputSignal(0, "", lcv, sigIdx)
+            %<t_exeF>(%<t_frameType>,%<sigIdx>,%<u_val>);
+        %endroll
+            iOutNo = 0;
+        }
+        iOutNo++;
+      }
+    %closefile drvFunc
+    %assign cFile = LibGetModelDotCFile()
+    %<LibSetSourceFileSection(cFile,"Functions",drvFunc)>
+    #ifndef __CONNECTED_IO__
+        ModelVar2SimuCom_%<t_frameType>();
+    #endif
+%endfunction %% Outputs

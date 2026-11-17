@@ -1,0 +1,43 @@
+%% File	   : tempratureScanAPI.tlc
+%% Abstract:
+%%		Target file for the C-Mex S-function crcengstat.c
+%% Author  : ZQingHua @2019/02/18
+
+%implements "tempratureScanAPI" "C"
+
+%% Function: BlockTypeSetup ===========================================
+%%
+%function BlockTypeSetup(block, system) void
+	%<LibAddToCommonIncludes("AFCScanner.h")>
+%endfunction %% BlockTypeSetup
+
+%% Function: BlockInstanceSetup ===========================================
+%%
+%function BlockInstanceSetup(block, system) void
+
+%endfunction %% BlockInstanceSetup
+
+%% Function: Start ====================================================
+%%
+%function Start(block, system) Output
+    %assign t_initF = SFcnParamSettings.r_initF
+    %<t_initF>();
+%endfunction %% Start
+
+%% Function: Outputs ===================================================
+%%
+%function Outputs(block, system) Output
+    %assign t_pv = SFcnParamSettings.r_pv
+
+    %openfile drvFunc
+        void TempratureData2ModelVar(void){
+            %foreach sigIdx = 13
+            %assign y = LibBlockOutputSignal(sigIdx, "", "", 0)
+            %<y> = %<t_pv>(%<sigIdx>);
+            %endforeach
+        }
+    %closefile drvFunc
+    %assign cFile = LibGetModelDotCFile()
+    %<LibSetSourceFileSection(cFile,"Functions",drvFunc)>
+    TempratureData2ModelVar();
+%endfunction %% Outputs
