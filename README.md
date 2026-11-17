@@ -10,9 +10,9 @@
 
 ---
 > 📚 文档导航：<br>
-> [总入口（导航仓库）](https://github.com/zqkbd/flight-control-toolbox) ｜ [English](./README_EN.md)<br>
+> [总入口（导航仓库）](https://github.com/zqhkd/flight-control-toolbox) ｜ [English](./README_EN.md)<br>
 > **本工具箱：** [中文](./README.md) ｜ [English](./README_EN.md)<br>
-> **相关工具箱：** [ASEToolBox 实时仿真](https://github.com/zqkbd/ASEToolBox) ｜ [English](https://github.com/zqkbd/ASEToolBox/blob/main/README_EN.md)
+> **相关工具箱：** [ASEToolBox 实时仿真](https://github.com/zqhkd/ASEToolBox) ｜ [English](https://github.com/zqhkd/ASEToolBox/blob/main/README_EN.md)
 
 ---
 ##  1. AFCToolBox概述
